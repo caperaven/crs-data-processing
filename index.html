@@ -8,12 +8,10 @@
 </head>
 <body>
     <script type="module">
-        import init, {add} from "/bin/wasm_lib.js";
+        import init, {in_filter} from "/bin/wasm_lib.js";
 
         async function run() {
             await init();
-            const result = add(2, 2);
-            alert(result);
         }
 
         run();
