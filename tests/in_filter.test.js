@@ -70,3 +70,19 @@ Deno.test("in_filter - greater or equal", () => {
     result = in_filter({ "field": "value", "operator": "le", "value": 5 }, { value: 10 }, false);
     assertEquals(result, false);
 })
+
+Deno.test("in_filter - is null", () => {
+    let result = in_filter({ "field": "value", "operator": "is_null" }, { value: null }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "is_null" }, { value: 10 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - is null", () => {
+    let result = in_filter({ "field": "value", "operator": "not_null" }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "not_null" }, { value: null }, false);
+    assertEquals(result, false);
+})
