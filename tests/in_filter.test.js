@@ -125,3 +125,17 @@ Deno.test("in_filter - ends with", () => {
     result = in_filter({ "field": "value", "operator": "ends_with", value: "world"}, { value: "hello world" }, false);
     assertEquals(result, true);
 })
+
+Deno.test("in_filter - like", () => {
+    let result = in_filter({"field": "value", "operator": "like", value: "%hello"}, {value: "hello world"}, false);
+    assertEquals(result, true);
+
+    result = in_filter({"field": "value", "operator": "like", value: "hello%"}, {value: "hello world"}, false);
+    assertEquals(result, false);
+
+    result = in_filter({"field": "value", "operator": "like", value: "world%"}, {value: "hello world"}, false);
+    assertEquals(result, true);
+
+    result = in_filter({"field": "value", "operator": "like", value: "%hello%"}, {value: "hello world"}, false);
+    assertEquals(result, true);
+})
