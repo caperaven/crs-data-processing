@@ -13,6 +13,17 @@ Deno.test("in_filter - equals", () => {
     assertEquals(result, false);
 })
 
+Deno.test("in_filter - equals case sensitive", () => {
+    let result = in_filter( {"field": "value", "operator": "eq", "value": "Hello"}, { value: "Hello" }, true);
+    assertEquals(result, true);
+
+    result = in_filter( {"field": "value", "operator": "eq", "value": "hello"}, { value: "Hello" }, true);
+    assertEquals(result, false);
+
+    result = in_filter( {"field": "value", "operator": "eq", "value": "hello"}, { value: "Hello" }, false);
+    assertEquals(result, true);
+})
+
 Deno.test("in_filter - not equals", () => {
     // true - test
     let result = in_filter({ "field": "value", "operator": "neq", "value": 20 }, { value: 10 }, false);
