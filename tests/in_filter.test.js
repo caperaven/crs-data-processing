@@ -22,3 +22,51 @@ Deno.test("in_filter - not equals", () => {
     result = in_filter({ "field": "value", "operator": "neq", "value": 10 }, { value: 10 }, false);
     assertEquals(result, false);
 })
+
+Deno.test("in_filter - greater than", () => {
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "gt", "value": 5 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "gt", "value": 15 }, { value: 10 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - greater or equal", () => {
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "ge", "value": 5 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // equal - test
+    result = in_filter({ "field": "value", "operator": "ge", "value": 10 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "ge", "value": 15 }, { value: 10 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - less than", () => {
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "lt", "value": 50 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "lt", "value": 5 }, { value: 10 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - greater or equal", () => {
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "le", "value": 50 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // equal - test
+    result = in_filter({ "field": "value", "operator": "le", "value": 10 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "le", "value": 5 }, { value: 10 }, false);
+    assertEquals(result, false);
+})
