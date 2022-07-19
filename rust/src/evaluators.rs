@@ -1,4 +1,17 @@
 mod equals;
+mod not_equals;
+mod greater_than;
+mod less_than;
+mod greater_or_equals;
+mod less_or_equals;
+mod is_null;
+mod not_null;
+mod like;
+mod not_like;
+mod one_of;
+mod between;
+mod starts_with;
+mod ends_with;
 
 use wasm_bindgen::JsValue;
 use crate::{get_property, expression, as_string};
@@ -40,7 +53,20 @@ fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Res
     }
 
     return match operator.as_str() {
-        "==" | "=" |"eq" => equals::evaluate(&intent_value, &row_value),
+        "==" | "=" |"eq"    => equals::evaluate(&intent_value, &row_value),
+        "!=" | "neq"        => not_equals::evaluate(&intent_value, &row_value),
+        ">"  | "gt"         => greater_than::evaluate(&intent_value, &row_value),
+        "<"  | "lt"         => less_than::evaluate(&intent_value, &row_value),
+        ">=" | "ge"         => greater_or_equals::evaluate(&intent_value, &row_value),
+        "<=" | "le"         => less_or_equals::evaluate(&intent_value, &row_value),
+        "is_null"           => is_null::evaluate(&row_value),
+        "not_null"          => not_null::evaluate(&row_value),
+        "like"              => like::evaluate(&row_value, &intent_value),
+        "not_like"          => not_like::evaluate(&row_value, &intent_value),
+        "in"                => one_of::evaluate(&row_value, &intent_value),
+        "between"           => between::evaluate(&row_value, &intent_value),
+        "startswith"        => starts_with::evaluate(&row_value, &intent_value),
+        "endswith"          => ends_with::evaluate(&row_value, &intent_value),
         _ => Ok(false)
     }
 }
