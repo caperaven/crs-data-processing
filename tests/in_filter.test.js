@@ -110,15 +110,14 @@ Deno.test("in_filter - between", () => {
     let result = in_filter({ "field": "value", "operator": "between", value: ["a", "c"]}, { value: "b" }, false);
     assertEquals(result, true);
 
-    result = in_filter({ "field": "value", "operator": "in", value: ["a", "c"]}, { value: "d" }, false);
+    result = in_filter({ "field": "value", "operator": "between", value: ["a", "c"]}, { value: "d" }, false);
     assertEquals(result, false);
 
-    // JHR: Todo there seems to be a problem here but I can't figure out what yet.
-    // result = in_filter({ "field": "value", "operator": "between", value: [10, 20] }, { value: 15 }, false);
-    // assertEquals(result, true);
-    //
-    // result = in_filter({ "field": "value", "operator": "in", value: [10, 20]}, { value: 20 }, false);
-    // assertEquals(result, false);
+    result = in_filter({ "field": "value", "operator": "between", value: ["10", "20"] }, { value: "15" }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "between", value: ["10", "20"]}, { value: "30" }, false);
+    assertEquals(result, false);
 })
 
 Deno.test("in_filter - starts with", () => {
