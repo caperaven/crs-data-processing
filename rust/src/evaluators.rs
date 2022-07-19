@@ -12,6 +12,7 @@ mod one_of;
 mod between;
 mod starts_with;
 mod ends_with;
+mod contains;
 
 use wasm_bindgen::JsValue;
 use crate::{get_property, expression, as_string};
@@ -54,10 +55,11 @@ pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) ->
         "not_null"          => not_null::evaluate(&row_value),
         "like"              => like::evaluate(&row_value, &intent_value),
         "not_like"          => not_like::evaluate(&row_value, &intent_value),
+        "contains"          => contains::evaluate(&row_value, &intent_value),
         "in"                => one_of::evaluate(&row_value, &intent_value),
         "between"           => between::evaluate(&row_value, &intent_value),
-        "startswith"        => starts_with::evaluate(&row_value, &intent_value),
-        "endswith"          => ends_with::evaluate(&row_value, &intent_value),
+        "starts_with"        => starts_with::evaluate(&row_value, &intent_value),
+        "ends_with"          => ends_with::evaluate(&row_value, &intent_value),
         _ => Ok(false)
     }
 }

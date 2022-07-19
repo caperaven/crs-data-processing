@@ -86,3 +86,41 @@ Deno.test("in_filter - is null", () => {
     result = in_filter({ "field": "value", "operator": "not_null" }, { value: null }, false);
     assertEquals(result, false);
 })
+
+Deno.test("in_filter - in", () => {
+    let result = in_filter({ "field": "value", "operator": "in", value: ["a", "b", "c"]}, { value: "a" }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "in", value: ["a", "b", "c"]}, { value: "d" }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - between", () => {
+    let result = in_filter({ "field": "value", "operator": "between", value: ["a", "c"]}, { value: "b" }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "in", value: ["a", "c"]}, { value: "d" }, false);
+    assertEquals(result, false);
+
+    result = in_filter({ "field": "value", "operator": "between", value: [10, 20] }, { value: 15 }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "in", value: [10, 20]}, { value: 20 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - starts with", () => {
+    let result = in_filter({ "field": "value", "operator": "starts_with", value: "hello"}, { value: "hello world" }, false);
+    assertEquals(result, true);
+
+    result = in_filter({ "field": "value", "operator": "starts_with", value: "world"}, { value: "hello world" }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - ends with", () => {
+    let result = in_filter({ "field": "value", "operator": "ends_with", value: "hello"}, { value: "hello world" }, false);
+    assertEquals(result, false);
+
+    result = in_filter({ "field": "value", "operator": "ends_with", value: "world"}, { value: "hello world" }, false);
+    assertEquals(result, true);
+})
