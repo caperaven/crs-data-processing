@@ -4,16 +4,21 @@ import init, {in_filter} from "./../bin/wasm_lib.js";
 await init();
 
 Deno.test("in_filter - equals", () => {
-    let intent = {
-        "field": "value",
-        "operator": "eq",
-        "value": 10
-    }
-
-    let record = {
-        value: 10
-    }
-
-    let result = in_filter(intent, record, false);
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "eq", "value": 10 }, { value: 10 }, false);
     assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "eq", "value": 20 }, { value: 10 }, false);
+    assertEquals(result, false);
+})
+
+Deno.test("in_filter - not equals", () => {
+    // true - test
+    let result = in_filter({ "field": "value", "operator": "neq", "value": 20 }, { value: 10 }, false);
+    assertEquals(result, true);
+
+    // false - test
+    result = in_filter({ "field": "value", "operator": "neq", "value": 10 }, { value: 10 }, false);
+    assertEquals(result, false);
 })

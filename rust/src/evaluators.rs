@@ -16,16 +16,7 @@ mod ends_with;
 use wasm_bindgen::JsValue;
 use crate::{get_property, expression, as_string};
 
-pub struct Evaluator {
-}
-
-impl Evaluator {
-    pub fn evaluate(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
-        return evaluate_object(intent, row, case_sensitive);
-    }
-}
-
-fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
+pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
     let operator = get_property!(&intent, "operator").as_string().unwrap();
 
     if operator == "or" || operator == "||" {
