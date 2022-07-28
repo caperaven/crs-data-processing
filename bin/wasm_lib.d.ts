@@ -14,6 +14,11 @@ export function in_filter(intent: any, row: any, case_sensitive: boolean): boole
 * @returns {Array<any>}
 */
 export function filter(data: any, intent: any, case_sensitive: boolean): Array<any>;
+/**
+* @param {any} data
+* @returns {any}
+*/
+export function roundtrip(data: any): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -21,6 +26,7 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly in_filter: (a: number, b: number, c: number, d: number) => void;
   readonly filter: (a: number, b: number, c: number, d: number) => void;
+  readonly roundtrip: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

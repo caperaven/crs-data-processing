@@ -38,3 +38,9 @@ pub fn filter(data: &JsValue, intent: &JsValue, case_sensitive: bool) -> Result<
 
     Ok(result)
 }
+
+#[wasm_bindgen]
+pub fn roundtrip(data: JsValue) -> JsValue {
+    let mut str = data.as_string().unwrap();
+    JsValue::from(str)
+}

@@ -249,6 +249,15 @@ export function filter(data, intent, case_sensitive) {
     }
 }
 
+/**
+* @param {any} data
+* @returns {any}
+*/
+export function roundtrip(data) {
+    const ret = wasm.roundtrip(addHeapObject(data));
+    return takeObject(ret);
+}
+
 async function load(module, imports) {
     if (typeof Response === 'function' && module instanceof Response) {
         if (typeof WebAssembly.instantiateStreaming === 'function') {

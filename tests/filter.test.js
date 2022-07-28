@@ -8,6 +8,9 @@ Deno.test("filter - wrong data sent - throw error", () => {
 })
 
 Deno.test("filter - simple", () => {
+
+    const start = performance.now();
+
     const result = filter([
         { value: "a" },
         { value: "b" },
@@ -15,6 +18,10 @@ Deno.test("filter - simple", () => {
         { value: "a" },
         { value: "b" }
     ], { "field": "value", "operator": "eq", "value": "a" }, false);
+
+    const end = performance.now();
+
+    console.log(`filter time: ${end - start}ms`);
 
     assertEquals(result.length, 2);
     assertEquals(result[0], 0);
