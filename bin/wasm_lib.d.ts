@@ -16,9 +16,11 @@ export function in_filter(intent: any, row: any, case_sensitive: boolean): boole
 export function filter(data: any, intent: any, case_sensitive: boolean): Array<any>;
 /**
 * @param {any} data
-* @returns {any}
+* @param {any} intent
+* @param {Uint32Array | undefined} rows
+* @returns {Uint32Array}
 */
-export function roundtrip(data: any): any;
+export function sort(data: any, intent: any, rows?: Uint32Array): Uint32Array;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -26,11 +28,12 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly in_filter: (a: number, b: number, c: number, d: number) => void;
   readonly filter: (a: number, b: number, c: number, d: number) => void;
-  readonly roundtrip: (a: number) => number;
+  readonly sort: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
+  readonly __wbindgen_free: (a: number, b: number) => void;
 }
 
 /**

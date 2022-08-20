@@ -1,6 +1,7 @@
 mod evaluators;
 mod traits;
 mod macros;
+mod sort;
 
 use js_sys::Array;
 use wasm_bindgen::prelude::*;
@@ -40,7 +41,11 @@ pub fn filter(data: &JsValue, intent: &JsValue, case_sensitive: bool) -> Result<
 }
 
 #[wasm_bindgen]
-pub fn roundtrip(data: JsValue) -> JsValue {
-    let mut str = data.as_string().unwrap();
-    JsValue::from(str)
+pub fn sort(data: &JsValue, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
+    let result: Result<Vec<usize>, JsValue> = match rows {
+        None => crate::sort::sort_all(data, intent),
+        Some(rows) => crate::sort::sort_partial(data, intent, rows)
+    };
+
+    result
 }
