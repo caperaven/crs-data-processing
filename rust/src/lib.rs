@@ -18,16 +18,13 @@ pub fn in_filter(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Resul
 }
 
 #[wasm_bindgen]
-pub fn filter(data: &JsValue, intent: &JsValue, case_sensitive: bool) -> Result<Array, JsValue> {
+pub fn filter(data: &Array, intent: &JsValue, case_sensitive: bool) -> Result<Array, JsValue> {
     let result = Array::new();
 
-    let iterator = js_sys::try_iter(data)?.ok_or_else(|| {
-        "filter expected an array of record objects"
-    })?;
+    let iterator = data.iter();
 
     let mut index = 0;
     for row in iterator {
-        let row = row?;
         let pass = in_filter(intent, &row, case_sensitive)?;
 
         if pass == true {
@@ -41,7 +38,7 @@ pub fn filter(data: &JsValue, intent: &JsValue, case_sensitive: bool) -> Result<
 }
 
 #[wasm_bindgen]
-pub fn sort(data: &JsValue, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
+pub fn sort(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
     let result: Result<Vec<usize>, JsValue> = match rows {
         None => crate::sort::sort_all(data, intent),
         Some(rows) => crate::sort::sort_partial(data, intent, rows)

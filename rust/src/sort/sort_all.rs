@@ -1,7 +1,7 @@
 use js_sys::Array;
 use wasm_bindgen::JsValue;
 
-pub fn sort_all(data: &JsValue, intent: &JsValue) -> Result<Vec<usize>, JsValue> {
+pub fn sort_all(data: &Array, intent: &JsValue) -> Result<Vec<usize>, JsValue> {
     let result: Vec<usize> = Vec::new();
 
     let iterator = js_sys::try_iter(data)?.ok_or_else(|| {

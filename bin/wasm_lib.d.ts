@@ -8,19 +8,19 @@
 */
 export function in_filter(intent: any, row: any, case_sensitive: boolean): boolean;
 /**
-* @param {any} data
+* @param {Array<any>} data
 * @param {any} intent
 * @param {boolean} case_sensitive
 * @returns {Array<any>}
 */
-export function filter(data: any, intent: any, case_sensitive: boolean): Array<any>;
+export function filter(data: Array<any>, intent: any, case_sensitive: boolean): Array<any>;
 /**
-* @param {any} data
+* @param {Array<any>} data
 * @param {any} intent
 * @param {Uint32Array | undefined} rows
 * @returns {Uint32Array}
 */
-export function sort(data: any, intent: any, rows?: Uint32Array): Uint32Array;
+export function sort(data: Array<any>, intent: any, rows?: Uint32Array): Uint32Array;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 

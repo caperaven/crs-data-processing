@@ -3,12 +3,7 @@ import init, {filter} from "./../bin/wasm_lib.js";
 
 await init();
 
-Deno.test("filter - wrong data sent - throw error", () => {
-    assertThrows(() => { filter({}, {}, false) }, "filter expected an array of record objects");
-})
-
 Deno.test("filter - simple", () => {
-
     const start = performance.now();
 
     const result = filter([

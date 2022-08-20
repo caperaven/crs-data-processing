@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "wasm-pack build rust/ --target web --out-dir ../bin",
-    "test": "deno test --allow-read ./tests"
+    "test": "deno test --allow-all ./tests"
   },
   "repository": {
     "type": "git",
