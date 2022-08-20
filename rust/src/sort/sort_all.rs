@@ -1,14 +1,13 @@
 use js_sys::Array;
 use wasm_bindgen::JsValue;
+use crate::sort::sort_partial;
 
 pub fn sort_all(data: &Array, intent: &JsValue) -> Result<Vec<usize>, JsValue> {
-    let result: Vec<usize> = Vec::new();
+    let mut rows: Vec<usize> = vec![];
+    let length = data.length() as usize;
+    for i in 0..length {
+        rows[i] = i;
+    }
 
-    let iterator = js_sys::try_iter(data)?.ok_or_else(|| {
-        "filter expected an array of record objects"
-    })?;
-
-    let mut index: usize = 0;
-
-    Ok(result)
+    sort_partial(data, intent, rows)
 }
