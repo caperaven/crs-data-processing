@@ -2,6 +2,7 @@ mod evaluators;
 mod traits;
 mod macros;
 mod sort;
+mod utils;
 
 use js_sys::Array;
 use wasm_bindgen::prelude::*;
@@ -10,6 +11,14 @@ use wasm_bindgen::prelude::*;
 extern "C" {
     #[wasm_bindgen(js_namespace = console, js_name = log)]
     fn console_log(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn get_value(obj: &JsValue, path: &str) -> JsValue {
+    match utils::get_value(obj, path) {
+        None => JsValue::NULL,
+        Some(value) => value
+    }
 }
 
 #[wasm_bindgen]
