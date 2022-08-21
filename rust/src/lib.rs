@@ -54,15 +54,12 @@ pub fn filter(data: &Array, intent: &JsValue, case_sensitive: bool) -> Result<Ar
 
     let iterator = data.iter();
 
-    let mut index = 0;
-    for row in iterator {
+    for (index, row) in iterator.enumerate() {
         let pass = in_filter(intent, &row, case_sensitive)?;
 
-        if pass == true {
+        if pass {
             result.push(&JsValue::from(index));
         }
-
-        index += 1;
     }
 
     Ok(result)
