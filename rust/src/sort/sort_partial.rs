@@ -47,17 +47,23 @@ fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
         console_log(&value_a);
         console_log(&value_b);
 
+        if crate::evaluators::equals::evaluate(&value_a, &value_b).unwrap() {
+            console_log(&JsValue::from("equal"));
+            continue;
+        }
+
         let is_less = crate::evaluators::less_than::evaluate(&value_a, &value_b).unwrap();
 
-        if is_less {
+        return if is_less {
             console_log(&JsValue::from("is less"));
-        }
-        else {
+            Ordering::Less
+        } else {
             console_log(&JsValue::from("is greater"));
+            Ordering::Greater
         }
     }
 
-    Ordering::Less
+    Ordering::Greater
 }
 
 fn intent_to_sort_intent(intent: &Array) -> Vec<SortIntent> {

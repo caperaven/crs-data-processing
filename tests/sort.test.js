@@ -7,12 +7,25 @@ init_panic_hook();
 
 Deno.test("sort - simple", () => {
     let result = sort(data, ["value:asc"]);
+
+
+    console.log(["value:asc"]);
     console.log(result);
+    for (let i = 0; i < result.length; i++) {
+        const index = result[i];
+        console.log(data[index]);
+    }
 })
 
 Deno.test("sort - mixed", () => {
     let result = sort(data2, ["v1:asc", "v2:asc"]);
+
+    console.log(["v1:asc", "v2:asc"])
     console.log(result);
+    for (let i = 0; i < result.length; i++) {
+        const index = result[i];
+        console.log(data2[index]);
+    }
 })
 
 // Deno.test("sort - width direction", () => {
