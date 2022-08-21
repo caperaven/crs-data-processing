@@ -19,7 +19,7 @@ pub fn init_panic_hook() {
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console, js_name = log)]
-    fn console_log(s: &str);
+    fn console_log(s: &JsValue);
 }
 
 /**

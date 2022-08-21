@@ -15,7 +15,7 @@ macro_rules! expression {
 #[macro_export]
 macro_rules! as_string {
     ($obj:expr) => {
-        $obj.as_string().unwrap()
+        $obj.as_string().unwrap_or("".to_string())
     }
 }
 

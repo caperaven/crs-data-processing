@@ -1,7 +1,8 @@
 use std::cmp::Ordering;
-use js_sys::Array;
+use js_sys::{Array};
 use wasm_bindgen::JsValue;
-use crate::{as_string, console_log, get_property, get_value};
+use crate::{as_string, console_log};
+use crate::utils::get_value;
 
 struct SortIntent {
     field: String,
@@ -27,23 +28,36 @@ pub fn sort_partial(data: &Array, intent: &Array, mut rows: Vec<usize>) -> Resul
 }
 
 fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
+    console_log(&JsValue::from(intent.to_string()));
+
     let obj_a = data.at(a);
     let obj_b = data.at(b);
+
+    console_log(&obj_a);
+    console_log(&obj_b);
 
     let sort_intent_collection = intent_to_sort_intent(intent);
 
     for sort_intent in sort_intent_collection {
-        let value_a = get_property!(obj_a, &sort_intent.field);
-        let value_b = get_property!(obj_b, &sort_intent.field);
+        console_log(&JsValue::from(&sort_intent.field));
+
+        let value_a = get_value(&obj_a, &sort_intent.field).unwrap_or(JsValue::from(""));
+        let value_b = get_value(&obj_b, &sort_intent.field).unwrap_or(JsValue::from(""));
+
+        console_log(&value_a);
+        console_log(&value_b);
+
         let is_less = crate::evaluators::less_than::evaluate(&value_a, &value_b).unwrap();
 
-        if sort_intent.direction == "asc" && is_less {
-            return Ordering::Less;
-            continue
+        if is_less {
+            console_log(&JsValue::from("is less"));
+        }
+        else {
+            console_log(&JsValue::from("is greater"));
         }
     }
 
-    Ordering::Equal
+    Ordering::Less
 }
 
 fn intent_to_sort_intent(intent: &Array) -> Vec<SortIntent> {
