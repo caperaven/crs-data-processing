@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use js_sys::Array;
 use wasm_bindgen::JsValue;
-use crate::{as_string, console_log, get_value};
+use crate::{as_string, console_log, get_property, get_value};
 
 struct SortIntent {
     field: String,
@@ -32,8 +32,17 @@ fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
 
     let sort_intent_collection = intent_to_sort_intent(intent);
 
+    for sort_intent in sort_intent_collection {
+        let value_a = get_property!(obj_a, &sort_intent.field);
+        let value_b = get_property!(obj_b, &sort_intent.field);
+        let is_less = crate::evaluators::less_than::evaluate(&value_a, &value_b).unwrap();
 
-    Ordering::Less
+        if sort_intent.direction == "asc" && is_less {
+            return Ordering::Less
+        }
+    }
+
+    Ordering::Equal
 }
 
 fn intent_to_sort_intent(intent: &Array) -> Vec<SortIntent> {

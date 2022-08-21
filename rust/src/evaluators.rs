@@ -1,7 +1,7 @@
 mod equals;
 mod not_equals;
 mod greater_than;
-mod less_than;
+pub mod less_than;
 mod greater_or_equals;
 mod less_or_equals;
 mod is_null;
