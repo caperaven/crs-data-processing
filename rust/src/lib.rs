@@ -6,6 +6,12 @@ mod utils;
 
 use js_sys::Array;
 use wasm_bindgen::prelude::*;
+use console_error_panic_hook;
+
+#[wasm_bindgen]
+pub fn init_panic_hook() {
+    console_error_panic_hook::set_once();
+}
 
 /**
     Bindings for debugging
@@ -69,6 +75,12 @@ pub fn filter(data: &Array, intent: &JsValue, case_sensitive: bool) -> Result<Ar
 **/
 #[wasm_bindgen]
 pub fn sort(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
+    if data.length() == 0 {
+        let result: Vec<usize> = vec![];
+        return Ok(result);
+    }
+
+
     let result: Result<Vec<usize>, JsValue> = match rows {
         None => crate::sort::sort_all(data, intent),
         Some(rows) => crate::sort::sort_partial(data, intent, rows)
