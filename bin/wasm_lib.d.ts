@@ -43,11 +43,11 @@ export function filter(data: Array<any>, intent: any, case_sensitive: boolean): 
 *    that must make up the sort result.
 **
 * @param {Array<any>} data
-* @param {any} intent
+* @param {Array<any>} intent
 * @param {Uint32Array | undefined} rows
 * @returns {Uint32Array}
 */
-export function sort(data: Array<any>, intent: any, rows?: Uint32Array): Uint32Array;
+export function sort(data: Array<any>, intent: Array<any>, rows?: Uint32Array): Uint32Array;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 

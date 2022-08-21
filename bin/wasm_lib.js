@@ -304,7 +304,7 @@ function getArrayU32FromWasm0(ptr, len) {
 *    that must make up the sort result.
 **
 * @param {Array<any>} data
-* @param {any} intent
+* @param {Array<any>} intent
 * @param {Uint32Array | undefined} rows
 * @returns {Uint32Array}
 */

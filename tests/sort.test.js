@@ -6,7 +6,7 @@ await init();
 init_panic_hook();
 
 Deno.test("sort - simple", () => {
-    let result = sort(data, {"name": "value"});
+    let result = sort(data, ["value:asc"]);
     console.log(result);
 })
 

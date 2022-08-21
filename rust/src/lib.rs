@@ -74,7 +74,7 @@ pub fn filter(data: &Array, intent: &JsValue, case_sensitive: bool) -> Result<Ar
     that must make up the sort result.
 **/
 #[wasm_bindgen]
-pub fn sort(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
+pub fn sort(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<Vec<usize>, JsValue> {
     if data.length() == 0 {
         let result: Vec<usize> = vec![];
         return Ok(result);
