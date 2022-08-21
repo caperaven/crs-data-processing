@@ -38,7 +38,8 @@ fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
         let is_less = crate::evaluators::less_than::evaluate(&value_a, &value_b).unwrap();
 
         if sort_intent.direction == "asc" && is_less {
-            return Ordering::Less
+            return Ordering::Less;
+            continue
         }
     }
 

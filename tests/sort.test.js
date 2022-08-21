@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import {data} from "./data/simple-data.js"
+import {data, data2} from "./data/simple-data.js"
 import init, {init_panic_hook, sort} from "./../bin/wasm_lib.js";
 
 await init();
@@ -7,6 +7,11 @@ init_panic_hook();
 
 Deno.test("sort - simple", () => {
     let result = sort(data, ["value:asc"]);
+    console.log(result);
+})
+
+Deno.test("sort - mixed", () => {
+    let result = sort(data2, ["v1:asc", "v2:asc"]);
     console.log(result);
 })
 
