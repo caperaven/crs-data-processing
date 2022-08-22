@@ -3,6 +3,11 @@ import init, {in_filter} from "./../bin/wasm_lib.js";
 
 await init();
 
+Deno.test("in_filter - equals on path", () => {
+    let result = in_filter({ "field": "person.age", "operator": "eq", "value": 20 }, { person: { age: 20 } }, false);
+    assertEquals(result, true);
+})
+
 Deno.test("in_filter - equals", () => {
     // true - test
     let result = in_filter({ "field": "value", "operator": "eq", "value": 10 }, { value: 10 }, false);

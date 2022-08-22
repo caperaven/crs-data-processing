@@ -15,7 +15,7 @@ pub mod ends_with;
 pub mod contains;
 
 use wasm_bindgen::JsValue;
-use crate::{get_property, expression, as_string};
+use crate::{get_property, expression, as_string, console_log};
 
 pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
     let operator = get_property!(&intent, "operator").as_string().unwrap();
@@ -34,7 +34,7 @@ pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) ->
 
     let field = as_string!(get_property!(&intent, "field"));
     let mut intent_value = get_property!(&intent, "value");
-    let mut row_value = get_property!(&row, field);
+    let mut row_value = crate::utils::get_value(&row, field.as_str()).unwrap_or(JsValue::NULL);
 
     if intent_value.is_string() && case_sensitive == false {
         let intent_string = as_string!(intent_value).to_lowercase();

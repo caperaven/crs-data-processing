@@ -6,7 +6,6 @@ mod utils;
 
 use js_sys::Array;
 use wasm_bindgen::prelude::*;
-use console_error_panic_hook;
 
 #[wasm_bindgen]
 pub fn init_panic_hook() {

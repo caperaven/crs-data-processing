@@ -1,14 +1,10 @@
 import { assertEquals } from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import {data} from "./data/simple-data.js"
 import init, {get_value} from "./../bin/wasm_lib.js";
 
 await init();
 
 Deno.test("get_value - simple", () => {
-    let result = get_value({
-        name: "John"
-    }, "name");
-
+    let result = get_value({ name: "John" }, "name");
     assertEquals(result, "John");
 })
 

@@ -13,7 +13,7 @@ function printResults(result, collection) {
 }
 
 Deno.test("sort - simple", () => {
-    let result = sort(data, ["value"]);
+    let result = sort(data, ["value:asc"]);
 
     assertEquals(result[0], 1);
     assertEquals(result[1], 4);
@@ -21,7 +21,7 @@ Deno.test("sort - simple", () => {
     assertEquals(result[3], 2);
     assertEquals(result[4], 3);
 
-    // printResults(result, data);
+    //printResults(result, data);
 })
 
 Deno.test("sort - simple dec", () => {
@@ -50,7 +50,13 @@ Deno.test("sort - mixed asc -> asc", () => {
 })
 
 Deno.test("sort - mixed asc -> dec", () => {
+    const start = performance.now();
+
     let result = sort(data2, ["v1", "v2:dec"]);
+
+    const end = performance.now();
+    console.log(`performance: ${end - start}ms`);
+
 
     assertEquals(result[0], 0);
     assertEquals(result[1], 1);
@@ -59,8 +65,23 @@ Deno.test("sort - mixed asc -> dec", () => {
     assertEquals(result[4], 2);
     assertEquals(result[5], 5);
 
-    // printResults(result, data2);
+    //printResults(result, data2);
 })
+
+
+// Deno.test("sort - path", () => {
+//     let result = sort(data2, ["person.name", "person.age"]);
+
+    // assertEquals(result[0], 0);
+    // assertEquals(result[1], 1);
+    // assertEquals(result[2], 4);
+    // assertEquals(result[3], 3);
+    // assertEquals(result[4], 2);
+    // assertEquals(result[5], 5);
+    //
+    // printResults(result, data2);
+// })
+
 
 // Deno.test("sort - width direction", () => {
 //     let result = sort(data, {"name": "value"});
