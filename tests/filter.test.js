@@ -16,8 +16,6 @@ Deno.test("filter - simple", () => {
 
     const end = performance.now();
 
-    console.log(`filter time: ${end - start}ms`);
-
     assertEquals(result.length, 2);
     assertEquals(result[0], 0);
     assertEquals(result[1], 3);

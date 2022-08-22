@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import {data, data2} from "./data/simple-data.js"
+import {data, data2, people} from "./data/simple-data.js"
 import init, {init_panic_hook, sort} from "./../bin/wasm_lib.js";
 
 await init();
@@ -11,6 +11,17 @@ function printResults(result, collection) {
         console.log(collection[index]);
     }
 }
+
+Deno.test("sort - on path", () => {
+    let result = sort(people, ["details.firstName", "details.age:dec"]);
+
+    assertEquals(result[0], 2);
+    assertEquals(result[1], 3);
+    assertEquals(result[2], 1);
+    assertEquals(result[3], 0);
+
+    // printResults(result, people);
+})
 
 Deno.test("sort - simple", () => {
     let result = sort(data, ["value:asc"]);
@@ -67,26 +78,3 @@ Deno.test("sort - mixed asc -> dec", () => {
 
     //printResults(result, data2);
 })
-
-
-// Deno.test("sort - path", () => {
-//     let result = sort(data2, ["person.name", "person.age"]);
-
-    // assertEquals(result[0], 0);
-    // assertEquals(result[1], 1);
-    // assertEquals(result[2], 4);
-    // assertEquals(result[3], 3);
-    // assertEquals(result[4], 2);
-    // assertEquals(result[5], 5);
-    //
-    // printResults(result, data2);
-// })
-
-
-// Deno.test("sort - width direction", () => {
-//     let result = sort(data, {"name": "value"});
-// })
-//
-// Deno.test("sort - sort subset using rows parameter", () => {
-//     let result = sort(data, {});
-// })

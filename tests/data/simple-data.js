@@ -1,3 +1,46 @@
+export const people = [
+    {
+        details: {
+            firstName: "John",
+            lastName: "Doe",
+            age: 20
+        },
+        contact: {
+            phone: "0234582641"
+        }
+    },
+    {
+        details: {
+            firstName: "John",
+            lastName: "Doe",
+            age: 55
+        },
+        contact: {
+            phone: "2232582645"
+        }
+    },
+    {
+        details: {
+            firstName: "Christine",
+            lastName: "Smith",
+            age: 30
+        },
+        contact: {
+            phone: "5556527536"
+        }
+    },
+    {
+        details: {
+            firstName: "Jane",
+            lastName: "Doe",
+            age: 19
+        },
+        contact: {
+            phone: "0836587612"
+        }
+    }
+]
+
 export const data = [
     {
         code: "code 1",
