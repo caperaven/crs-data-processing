@@ -3,8 +3,9 @@ mod traits;
 mod macros;
 mod sort;
 mod utils;
+mod group;
 
-use js_sys::Array;
+use js_sys::{Array};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -76,11 +77,24 @@ pub fn sort(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<Ve
         return Ok(result);
     }
 
-
     let result: Result<Vec<usize>, JsValue> = match rows {
-        None => crate::sort::sort_all(data, intent),
-        Some(rows) => crate::sort::sort_partial(data, intent, rows)
+        None => sort::sort_all(data, intent),
+        Some(rows) => sort::sort_partial(data, intent, rows)
     };
 
     result
+}
+
+#[wasm_bindgen]
+pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
+    if data.length() == 0 {
+        return Ok(JsValue::NULL);
+    }
+
+    let result: JsValue = match rows {
+        None => group::group_data_all(data, intent),
+        Some(rows) => group::group_data_partial(data, intent, rows)
+    };
+
+    Ok(result)
 }
