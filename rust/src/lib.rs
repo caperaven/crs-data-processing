@@ -86,12 +86,12 @@ pub fn sort(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<Ve
 }
 
 #[wasm_bindgen]
-pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
+pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<js_sys::Object, JsValue> {
     if data.length() == 0 {
-        return Ok(JsValue::NULL);
+        return Ok(js_sys::Object::new());
     }
 
-    let result: JsValue = match rows {
+    let result: js_sys::Object = match rows {
         None => group::group_data_all(data, intent),
         Some(rows) => group::group_data_partial(data, intent, rows)
     };

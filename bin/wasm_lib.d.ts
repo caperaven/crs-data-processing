@@ -52,9 +52,9 @@ export function sort(data: Array<any>, intent: Array<any>, rows?: Uint32Array): 
 * @param {Array<any>} data
 * @param {Array<any>} intent
 * @param {Uint32Array | undefined} rows
-* @returns {any}
+* @returns {object}
 */
-export function group(data: Array<any>, intent: Array<any>, rows?: Uint32Array): any;
+export function group(data: Array<any>, intent: Array<any>, rows?: Uint32Array): object;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 

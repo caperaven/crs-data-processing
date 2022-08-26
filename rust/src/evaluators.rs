@@ -15,7 +15,7 @@ pub mod ends_with;
 pub mod contains;
 
 use wasm_bindgen::JsValue;
-use crate::{get_property, expression, as_string, console_log};
+use crate::{get_property, expression, as_string};
 
 pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
     let operator = get_property!(&intent, "operator").as_string().unwrap();
