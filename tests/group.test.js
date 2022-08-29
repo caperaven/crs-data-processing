@@ -5,20 +5,6 @@ import init, * as wasm from "./../bin/wasm_lib.js";
 await init();
 wasm.init_panic_hook();
 
-// {
-//     "root": {
-//     "child_count": 1,
-//         "children": {
-//              "Angel": {
-//                  "child_count": 1,
-//                      "children": {
-//                      "Ashton"
-//                  }
-//              }
-//         }
-//     }
-// }
-
 Deno.test("group - simple", () => {
     let result = wasm.group(people, ["details.lastName"]);
 
@@ -31,9 +17,12 @@ Deno.test("group - simple", () => {
 Deno.test("group - simple", () => {
     let result = wasm.group(people, ["details.lastName", "details.firstName"]);
 
+    assertEquals(result["root"]["child_count"], 2);
+    assertEquals(result["root"]["children"]["Doe"]["child_count"], 2);
+    assertEquals(result["root"]["children"]["Smith"]["child_count"], 1);
 
-    // root.children.Doe.children.Jane.rows            3
-    // root.children.Doe.children.John.rows            0, 1
-    // root.children.Smith.children.Christine.rows     2
-    console.log(result);
+    assertEquals(result["root"]["children"]["Doe"]["children"]["Jane"]["rows"][0], 3);
+    assertEquals(result["root"]["children"]["Doe"]["children"]["John"]["rows"][0], 0);
+    assertEquals(result["root"]["children"]["Doe"]["children"]["John"]["rows"][1], 1);
+    assertEquals(result["root"]["children"]["Smith"]["children"]["Christine"]["rows"][0], 2);
 })

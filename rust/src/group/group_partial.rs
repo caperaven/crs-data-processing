@@ -24,8 +24,6 @@ impl Field {
     pub fn to_value(&mut self, parent: &Object) -> Result<JsValue, JsValue> {
         let result = Object::new();
 
-        Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count))?;
-
         if self.children.len() > 0 {
             let children = Object::new();
 
@@ -33,6 +31,7 @@ impl Field {
                 child.1.to_value(&children)?;
             }
 
+            Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count))?;
             Reflect::set(&result, &JsValue::from("children"), &children)?;
         }
 
