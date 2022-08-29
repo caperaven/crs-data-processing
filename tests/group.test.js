@@ -2,6 +2,7 @@ import {people} from "./data/simple-data.js";
 import init, * as wasm from "./../bin/wasm_lib.js";
 
 await init();
+wasm.init_panic_hook();
 
 // {
 //     "root": {

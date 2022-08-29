@@ -1,3 +1,4 @@
+use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use js_sys::{Array, Object, Reflect};
 use wasm_bindgen::JsValue;
@@ -13,7 +14,7 @@ struct Field {
     // Collection of sub folder
     children: HashMap<String, Field>,
 
-    rows: Option<Vec<i64>>
+    rows: Option<Vec<usize>>
 }
 
 impl Field {
@@ -30,6 +31,10 @@ impl Field {
         let result = Object::new();
         // set result items
         Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count));
+
+        if !self.rows.is_none() {
+            
+        }
 
         // set children
         let children = Object::new();
@@ -50,7 +55,7 @@ pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Obj
 
     for row in rows.iter() {
         let row_data = data.at(*row as i32);
-        process_row(&mut root, &row_data, &fields, 0);
+        process_row(&mut root, &row_data, &fields, 0, row);
     }
 
     let result = Object::new();
@@ -58,7 +63,23 @@ pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Obj
     result
 }
 
-fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u32) {
+fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u32, row_index: &usize) {
+    // On leaf node so just add the rows indexes and then return
+    if field_index == fields.length() {
+        match parent.rows.borrow_mut() {
+            None => {
+                let mut rows = Vec::new();
+                rows.push(*row_index);
+                parent.rows = Some(rows);
+            }
+            Some(collection) => {
+                collection.push(*row_index);
+            }
+        }
+        return;
+    }
+
+    // Create the group structure
     let field: JsValue = fields.get(field_index);
     let field_name: String = field.as_string().unwrap();
 
@@ -69,13 +90,13 @@ fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u
     };
 
     set_group_count(parent, process_value);
+
+    process_row(parent, row, fields, field_index + 1, row_index);
 }
 
 fn set_group_count(parent: &mut Field, value: String) {
     match parent.children.contains_key(value.as_str()) {
         true => {
-            // let field = parent.children.get_mut(value.as_str()).unwrap();
-            // field.child_count += 1;
         }
         false => {
             let result = Field::new(value.clone());
@@ -85,16 +106,3 @@ fn set_group_count(parent: &mut Field, value: String) {
 
     parent.child_count += 1;
 }
-
-// fn get_field_group(parent: &mut Field, value: &str) -> Option<&mut Field> {
-//     // return if parent.children.contains_key(value) {
-//     //     let result = parent.children.get_mut(value).unwrap();
-//     //     Some(result)
-//     // } else {
-//     //     let result = Field::new(value);
-//     //     parent.children.insert(value.clone(), result);
-//     //
-//     //     let result = parent.children.get_mut(value.as_str()).unwrap();
-//     //     Some(result)
-//     // }
-// }
