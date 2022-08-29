@@ -2,19 +2,12 @@ use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use js_sys::{Array, Object, Reflect};
 use wasm_bindgen::JsValue;
-use crate::console_log;
 
 struct Field {
-    // Field Name
-    value: String,
-
-    // The rows defined for this group
-    child_count: i64,
-
-    // Collection of sub folder
-    children: HashMap<String, Field>,
-
-    rows: Option<Vec<usize>>
+    pub value: String,
+    pub child_count: i32,
+    pub children: HashMap<String, Field>,
+    pub rows: Option<Array>
 }
 
 impl Field {
@@ -27,30 +20,32 @@ impl Field {
         }
     }
 
-    pub fn to_value(&mut self, parent: &Object) {
+    pub fn to_value(&mut self, parent: &Object) -> Result<JsValue, JsValue> {
         let result = Object::new();
-        // set result items
-        Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count));
 
-        if !self.rows.is_none() {
-            
+        Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count))?;
+
+        if self.children.len() > 0 {
+            let children = Object::new();
+
+            for child in self.children.iter_mut() {
+                child.1.to_value(&children)?;
+            }
+
+            Reflect::set(&result, &JsValue::from("children"), &children)?;
         }
 
-        // set children
-        let children = Object::new();
-
-        for child in self.children.iter_mut() {
-            child.1.to_value(&children);
+        if self.rows.is_some() {
+            Reflect::set(&result, &JsValue::from("rows"), &self.rows.as_ref().unwrap());
         }
 
-        Reflect::set(&result, &JsValue::from("children"), &children);
+        Reflect::set(&parent, &JsValue::from(&self.value), &result)?;
 
-        // add result items to parent
-        Reflect::set(&parent, &JsValue::from(&self.value), &result);
+        Ok(JsValue::NULL)
     }
 }
 
-pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Object {
+pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Result<Object, JsValue> {
     let mut root = Field::new(String::from("root"));
 
     for row in rows.iter() {
@@ -59,25 +54,17 @@ pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Obj
     }
 
     let result = Object::new();
-    root.to_value(&result);
-    result
+    root.to_value(&result)?;
+
+    Ok(result)
 }
 
 fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u32, row_index: &usize) {
-    // On leaf node so just add the rows indexes and then return
-    if field_index == fields.length() {
-        match parent.rows.borrow_mut() {
-            None => {
-                let mut rows = Vec::new();
-                rows.push(*row_index);
-                parent.rows = Some(rows);
-            }
-            Some(collection) => {
-                collection.push(*row_index);
-            }
-        }
+    if field_index >= fields.length() {
         return;
     }
+
+    let is_last_field = field_index == fields.length() - 1;
 
     // Create the group structure
     let field: JsValue = fields.get(field_index);
@@ -89,20 +76,39 @@ fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u
         Some(value) => value.as_string().unwrap().clone()
     };
 
-    set_group_count(parent, process_value);
-
-    process_row(parent, row, fields, field_index + 1, row_index);
+    set_group_count(parent, process_value, is_last_field, row_index);
 }
 
-fn set_group_count(parent: &mut Field, value: String) {
-    match parent.children.contains_key(value.as_str()) {
-        true => {
+fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_index: &usize) {
+    match parent.children.get_mut(value.as_str()) {
+        None => {
+            let mut children = Field::new(value.clone());
+
+            if is_last_field == true {
+                addRowIndex(&mut children, *row_index);
+            }
+
+            parent.children.insert(value.clone(), children);
+            parent.child_count += 1;
+
         }
-        false => {
-            let result = Field::new(value.clone());
-            parent.children.insert(value.clone(), result);
+        Some(children) => {
+            if is_last_field == true {
+                addRowIndex(children, *row_index);
+            }
         }
     }
+}
 
-    parent.child_count += 1;
+fn addRowIndex(parent: &mut Field, row_index: usize) {
+    match parent.rows.borrow_mut() {
+        None => {
+            let rows = Array::new();
+            rows.push(&JsValue::from(row_index));
+            parent.rows = Some(rows);
+        }
+        Some(collection) => {
+            collection.push(&JsValue::from(row_index));
+        }
+    }
 }

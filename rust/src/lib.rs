@@ -91,10 +91,10 @@ pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<j
         return Ok(js_sys::Object::new());
     }
 
-    let result: js_sys::Object = match rows {
+    let result: Result<js_sys::Object, JsValue> = match rows {
         None => group::group_data_all(data, intent),
         Some(rows) => group::group_data_partial(data, intent, rows)
     };
 
-    Ok(result)
+    result
 }
