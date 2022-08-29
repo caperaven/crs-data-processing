@@ -2,7 +2,6 @@ use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use js_sys::{Array, Object, Reflect};
 use wasm_bindgen::JsValue;
-use crate::console_log;
 
 struct Field {
     pub value: String,
@@ -36,7 +35,7 @@ impl Field {
         }
 
         if self.rows.is_some() {
-            Reflect::set(&result, &JsValue::from("rows"), &self.rows.as_ref().unwrap());
+            Reflect::set(&result, &JsValue::from("rows"), &self.rows.as_ref().unwrap())?;
         }
 
         Reflect::set(&parent, &JsValue::from(&self.value), &result)?;
@@ -95,7 +94,7 @@ fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_i
             let mut children = Field::new(value.clone());
 
             if is_last_field == true {
-                addRowIndex(&mut children, *row_index);
+                add_row_index(&mut children, *row_index);
             }
 
             parent.children.insert(value.clone(), children);
@@ -104,13 +103,13 @@ fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_i
         }
         Some(children) => {
             if is_last_field == true {
-                addRowIndex(children, *row_index);
+                add_row_index(children, *row_index);
             }
         }
     }
 }
 
-fn addRowIndex(parent: &mut Field, row_index: usize) {
+fn add_row_index(parent: &mut Field, row_index: usize) {
     match parent.rows.borrow_mut() {
         None => {
             let rows = Array::new();
