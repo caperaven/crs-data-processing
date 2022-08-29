@@ -12,12 +12,13 @@ Deno.test("group - simple", () => {
     assertEquals(result["root"]["children"]["Doe"]["rows"][1], 1);
     assertEquals(result["root"]["children"]["Doe"]["rows"][2], 3);
     assertEquals(result["root"]["children"]["Smith"]["rows"][0], 2);
+    assertEquals(result["root"]["children"]["none"]["rows"][0], 4);
 })
 
 Deno.test("group - simple", () => {
     let result = wasm.group(people, ["details.lastName", "details.firstName"]);
 
-    assertEquals(result["root"]["child_count"], 2);
+    assertEquals(result["root"]["child_count"], 3);
     assertEquals(result["root"]["children"]["Doe"]["child_count"], 2);
     assertEquals(result["root"]["children"]["Smith"]["child_count"], 1);
 

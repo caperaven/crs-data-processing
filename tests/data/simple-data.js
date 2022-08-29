@@ -38,6 +38,11 @@ export const people = [
         contact: {
             phone: "0836587612"
         }
+    },
+    {
+        details: {
+
+        }
     }
 ]
 
@@ -93,5 +98,10 @@ export const data2 = [
     {
         v1: "c",
         v2: 5
-    }
+    },
+    {
+        details: {
+
+        }
+    },
 ]
