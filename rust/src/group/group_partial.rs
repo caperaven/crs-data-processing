@@ -2,6 +2,7 @@ use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use js_sys::{Array, Object, Reflect};
 use wasm_bindgen::JsValue;
+use crate::console_log;
 
 struct Field {
     pub value: String,
@@ -71,12 +72,22 @@ fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u
     let field_name: String = field.as_string().unwrap();
 
     let value = crate::utils::get_value(row, &field_name);
+    let mut value_copy = String::from("none");
+
     let process_value: String = match value {
         None => String::from("none"),
-        Some(value) => value.as_string().unwrap().clone()
+        Some(value) => {
+            value_copy = value.as_string().unwrap();
+            value.as_string().unwrap().clone()
+        }
     };
 
     set_group_count(parent, process_value, is_last_field, row_index);
+
+    if is_last_field == false {
+        let new_parent = parent.children.get_mut(value_copy.as_str()).unwrap();
+        process_row(new_parent, row, fields, field_index + 1, row_index);
+    }
 }
 
 fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_index: &usize) {
