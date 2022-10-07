@@ -4,6 +4,7 @@ mod macros;
 mod sort;
 mod utils;
 mod group;
+mod aggregate;
 
 use js_sys::{Array};
 use wasm_bindgen::prelude::*;
@@ -97,4 +98,30 @@ pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<j
     };
 
     result
+}
+
+#[wasm_bindgen]
+pub fn aggregate(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<JsValue>, JsValue> {
+    if data.length() == 0 {
+        return Ok(Vec::new());
+    }
+
+    let result: Result<Vec<JsValue>, JsValue> = match rows {
+        None => aggregate::aggregate_all(data, intent),
+        Some(rows) => aggregate::aggregate_partial(data, intent, rows)
+    };
+
+    result
+}
+
+#[wasm_bindgen]
+pub fn keys(intent: &JsValue) {
+    let keys = js_sys::Reflect::own_keys(intent).unwrap();
+    let iter = keys.iter();
+
+    for key in iter {
+        console_log(&key);
+    }
+
+    console_log(intent);
 }

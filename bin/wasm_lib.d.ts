@@ -55,6 +55,17 @@ export function sort(data: Array<any>, intent: Array<any>, rows?: Uint32Array): 
 * @returns {object}
 */
 export function group(data: Array<any>, intent: Array<any>, rows?: Uint32Array): object;
+/**
+* @param {Array<any>} data
+* @param {any} intent
+* @param {Uint32Array | undefined} rows
+* @returns {any[]}
+*/
+export function aggregate(data: Array<any>, intent: any, rows?: Uint32Array): any[];
+/**
+* @param {any} intent
+*/
+export function keys(intent: any): void;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -66,6 +77,8 @@ export interface InitOutput {
   readonly filter: (a: number, b: number, c: number, d: number) => void;
   readonly sort: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly group: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly aggregate: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly keys: (a: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
@@ -73,14 +86,16 @@ export interface InitOutput {
   readonly __wbindgen_exn_store: (a: number) => void;
 }
 
+export type SyncInitInput = BufferSource | WebAssembly.Module;
 /**
-* Synchronously compiles the given `bytes` and instantiates the WebAssembly module.
+* Instantiates the given `module`, which can either be bytes or
+* a precompiled `WebAssembly.Module`.
 *
-* @param {BufferSource} bytes
+* @param {SyncInitInput} module
 *
 * @returns {InitOutput}
 */
-export function initSync(bytes: BufferSource): InitOutput;
+export function initSync(module: SyncInitInput): InitOutput;
 
 /**
 * If `module_or_path` is {RequestInfo} or {URL}, makes a request and
