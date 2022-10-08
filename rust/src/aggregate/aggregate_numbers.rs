@@ -13,8 +13,8 @@ impl NumberAggregator {
         NumberAggregator {
             name,
             total: 0.0,
-            min: 0.0,
-            max: 0.0,
+            min: f64::MAX,
+            max: f64::MIN,
             count: 0.0
         }
     }
