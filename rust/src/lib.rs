@@ -1,3 +1,5 @@
+extern crate core;
+
 mod evaluators;
 mod traits;
 mod macros;
@@ -101,12 +103,12 @@ pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<j
 }
 
 #[wasm_bindgen]
-pub fn aggregate(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<Vec<JsValue>, JsValue> {
+pub fn aggregate(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
     if data.length() == 0 {
-        return Ok(Vec::new());
+        return Ok(JsValue::NULL);
     }
 
-    let result: Result<Vec<JsValue>, JsValue> = match rows {
+    let result: Result<JsValue, JsValue> = match rows {
         None => aggregate::aggregate_all(data, intent),
         Some(rows) => aggregate::aggregate_partial(data, intent, rows)
     };
