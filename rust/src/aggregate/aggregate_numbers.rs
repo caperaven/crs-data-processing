@@ -1,3 +1,5 @@
+use wasm_bindgen::{JsValue};
+
 pub struct NumberAggregator {
     name: String,
     total: f64,
@@ -31,10 +33,18 @@ impl NumberAggregator {
         self.count += 1.;
     }
 
-    pub fn value(&self) {
+    pub fn value(&self) -> Result<js_sys::Object, JsValue> {
         let min = self.min;
         let max = self.max;
         let sum = self.total;
         let ave = self.total / self.count;
+
+        let obj = js_sys::Object::new();
+        js_sys::Reflect::set(&obj,&JsValue::from("min"), &JsValue::from(min))?;
+        js_sys::Reflect::set(&obj,&JsValue::from("max"), &JsValue::from(max))?;
+        js_sys::Reflect::set(&obj,&JsValue::from("sum"), &JsValue::from(sum))?;
+        js_sys::Reflect::set(&obj,&JsValue::from("ave"), &JsValue::from(ave))?;
+
+        Ok(obj)
     }
 }

@@ -103,14 +103,14 @@ pub fn group(data: &Array, intent: &Array, rows: Option<Vec<usize>>) -> Result<j
 }
 
 #[wasm_bindgen]
-pub fn aggregate(data: &Array, intent: &JsValue, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
+pub fn aggregate(data: &Array, intent: Vec<JsValue>, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
     if data.length() == 0 {
         return Ok(JsValue::NULL);
     }
 
     let result: Result<JsValue, JsValue> = match rows {
-        None => aggregate::aggregate_all(data, intent),
-        Some(rows) => aggregate::aggregate_partial(data, intent, rows)
+        None => aggregate::aggregate_all(data, &intent),
+        Some(rows) => aggregate::aggregate_partial(data, &intent, rows)
     };
 
     result

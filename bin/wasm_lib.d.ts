@@ -57,11 +57,11 @@ export function sort(data: Array<any>, intent: Array<any>, rows?: Uint32Array): 
 export function group(data: Array<any>, intent: Array<any>, rows?: Uint32Array): object;
 /**
 * @param {Array<any>} data
-* @param {any} intent
+* @param {any[]} intent
 * @param {Uint32Array | undefined} rows
 * @returns {any}
 */
-export function aggregate(data: Array<any>, intent: any, rows?: Uint32Array): any;
+export function aggregate(data: Array<any>, intent: any[], rows?: Uint32Array): any;
 /**
 * @param {any} intent
 */
@@ -77,13 +77,13 @@ export interface InitOutput {
   readonly filter: (a: number, b: number, c: number, d: number) => void;
   readonly sort: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly group: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly aggregate: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly aggregate: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly keys: (a: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
