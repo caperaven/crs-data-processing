@@ -15,10 +15,11 @@ function printResults(result, collection) {
 Deno.test("sort - on path", () => {
     let result = sort(people, ["details.firstName", "details.age:dec"]);
 
-    assertEquals(result[0], 2);
-    assertEquals(result[1], 3);
-    assertEquals(result[2], 1);
-    assertEquals(result[3], 0);
+    assertEquals(result[0], 4);
+    assertEquals(result[1], 2);
+    assertEquals(result[2], 3);
+    assertEquals(result[3], 1);
+    assertEquals(result[4], 0);
 
     // printResults(result, people);
 })
@@ -50,31 +51,28 @@ Deno.test("sort - simple dec", () => {
 Deno.test("sort - mixed asc -> asc", () => {
     let result = sort(data2, ["v1", "v2"]);
 
-    assertEquals(result[0], 1);
-    assertEquals(result[1], 0);
-    assertEquals(result[2], 3);
-    assertEquals(result[3], 4);
-    assertEquals(result[4], 5);
-    assertEquals(result[5], 2);
+// console.log(result);
+// printResults(result, data2);
 
-    // printResults(result, data2);
+    assertEquals(result[0], 6);
+    assertEquals(result[1], 1);
+    assertEquals(result[2], 0);
+    assertEquals(result[3], 3);
+    assertEquals(result[4], 4);
+    assertEquals(result[5], 5);
+    assertEquals(result[6], 2);
 })
 
 Deno.test("sort - mixed asc -> dec", () => {
-    const start = performance.now();
-
     let result = sort(data2, ["v1", "v2:dec"]);
 
-    const end = performance.now();
-    console.log(`performance: ${end - start}ms`);
-
-
-    assertEquals(result[0], 0);
-    assertEquals(result[1], 1);
-    assertEquals(result[2], 4);
-    assertEquals(result[3], 3);
-    assertEquals(result[4], 2);
-    assertEquals(result[5], 5);
+    assertEquals(result[0], 6);
+    assertEquals(result[1], 0);
+    assertEquals(result[2], 1);
+    assertEquals(result[3], 4);
+    assertEquals(result[4], 3);
+    assertEquals(result[5], 2);
+    assertEquals(result[6], 5);
 
     //printResults(result, data2);
 })
