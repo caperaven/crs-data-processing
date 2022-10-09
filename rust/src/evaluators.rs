@@ -21,20 +21,20 @@ pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) ->
     let operator = get_property!(&intent, "operator").as_string().unwrap();
 
     if operator == "or" || operator == "||" {
-        return evaluate_or(expression!(&intent), &row, case_sensitive);
+        return evaluate_or(expression!(&intent), row, case_sensitive);
     }
 
     if operator == "and" || operator == "&&" {
-        return evaluate_and(expression!(&intent), &row, case_sensitive);
+        return evaluate_and(expression!(&intent), row, case_sensitive);
     }
 
     if operator == "not" || operator == "!" {
-        return evaluate_not(expression!(&intent), &row, case_sensitive);
+        return evaluate_not(expression!(&intent), row, case_sensitive);
     }
 
     let field = as_string!(get_property!(&intent, "field"));
     let mut intent_value = get_property!(&intent, "value");
-    let mut row_value = crate::utils::get_value(&row, field.as_str()).unwrap_or(JsValue::NULL);
+    let mut row_value = crate::utils::get_value(row, field.as_str()).unwrap_or(JsValue::NULL);
 
     if intent_value.is_string() && case_sensitive == false {
         let intent_string = as_string!(intent_value).to_lowercase();
