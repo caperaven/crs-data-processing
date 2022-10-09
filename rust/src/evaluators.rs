@@ -36,7 +36,7 @@ pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) ->
     let mut intent_value = get_property!(&intent, "value");
     let mut row_value = crate::utils::get_value(row, field.as_str()).unwrap_or(JsValue::NULL);
 
-    if intent_value.is_string() && case_sensitive == false {
+    if intent_value.is_string() && !case_sensitive {
         let intent_string = as_string!(intent_value).to_lowercase();
         let row_value_string = as_string!(row_value).to_lowercase();
 
@@ -66,10 +66,10 @@ pub fn evaluate_object(intent: &JsValue, row: &JsValue, case_sensitive: bool) ->
 
 fn evaluate_or(expressions: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
     // as soon as the expression passes, stop and the row succeeds
-    let iter = js_sys::try_iter(expressions)?.ok_or_else(|| "need to pass an array")?;
+    let iter = js_sys::try_iter(expressions)?.ok_or("need to pass an array")?;
     for filter in iter {
         let filter = filter?;
-        let result = evaluate_object(&filter, &row, case_sensitive);
+        let result = evaluate_object(&filter, row, case_sensitive);
 
         if result == Ok(true) {
             return Ok(true);
@@ -82,10 +82,10 @@ fn evaluate_or(expressions: &JsValue, row: &JsValue, case_sensitive: bool) -> Re
 
 fn evaluate_and(expressions: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
     // as soon as a expression is false, the row fails and we stop the process
-    let iter = js_sys::try_iter(expressions)?.ok_or_else(|| "need to pass an array")?;
+    let iter = js_sys::try_iter(expressions)?.ok_or("need to pass an array")?;
     for filter in iter {
         let filter = filter?;
-        let result = evaluate_object(&filter, &row, case_sensitive);
+        let result = evaluate_object(&filter, row, case_sensitive);
         if result == Ok(false) {
             return Ok(false);
         }
@@ -95,6 +95,6 @@ fn evaluate_and(expressions: &JsValue, row: &JsValue, case_sensitive: bool) -> R
 }
 
 fn evaluate_not(expressions: &JsValue, row: &JsValue, case_sensitive: bool) -> Result<bool, JsValue> {
-    let result = evaluate_and(expressions, &row, case_sensitive)?;
+    let result = evaluate_and(expressions, row, case_sensitive)?;
     Ok(!result)
 }
