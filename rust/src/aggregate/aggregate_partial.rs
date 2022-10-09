@@ -3,7 +3,7 @@ use js_sys::Array;
 use wasm_bindgen::JsValue;
 use crate::aggregate::aggregate_numbers::NumberAggregator;
 
-pub fn aggregate_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec<usize>) -> Result<JsValue, JsValue> {
+pub fn aggregate_partial(data: &Array, intent: &[JsValue], mut _rows: Vec<usize>) -> Result<JsValue, JsValue> {
     let mut map: HashMap<String, NumberAggregator> = HashMap::new();
 
     for key in intent.iter() {
@@ -13,7 +13,7 @@ pub fn aggregate_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec<usi
 
     for row in data.iter() {
         for key in intent.iter() {
-            let value = js_sys::Reflect::get(&row, &key).unwrap();
+            let value = js_sys::Reflect::get(&row, key).unwrap();
             let aggregator = map.get_mut(&key.as_string().unwrap()).unwrap();
             aggregator.add(value.as_f64().unwrap());
         }

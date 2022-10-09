@@ -20,14 +20,14 @@ impl Field {
         }
     }
 
-    pub fn to_value(&mut self, parent: &Object) -> Result<JsValue, JsValue> {
+    pub fn create_value_object(&mut self, parent: &Object) -> Result<JsValue, JsValue> {
         let result = Object::new();
 
-        if self.children.len() > 0 {
+        if !self.children.is_empty() {
             let children = Object::new();
 
             for child in self.children.iter_mut() {
-                child.1.to_value(&children)?;
+                child.1.create_value_object(&children)?;
             }
 
             Reflect::set(&result, &JsValue::from("child_count"), &JsValue::from(self.child_count))?;
@@ -35,10 +35,10 @@ impl Field {
         }
 
         if self.rows.is_some() {
-            Reflect::set(&result, &JsValue::from("rows"), &self.rows.as_ref().unwrap())?;
+            Reflect::set(&result, &JsValue::from("rows"), self.rows.as_ref().unwrap())?;
         }
 
-        Reflect::set(&parent, &JsValue::from(&self.value), &result)?;
+        Reflect::set(parent, &JsValue::from(&self.value), &result)?;
 
         Ok(JsValue::NULL)
     }
@@ -49,11 +49,11 @@ pub fn group_data_partial(data: &Array, fields: &Array, rows: Vec<usize>) -> Res
 
     for row in rows.iter() {
         let row_data = data.at(*row as i32);
-        process_row(&mut root, &row_data, &fields, 0, row);
+        process_row(&mut root, &row_data, fields, 0, row);
     }
 
     let result = Object::new();
-    root.to_value(&result)?;
+    root.create_value_object(&result)?;
 
     Ok(result)
 }
@@ -76,13 +76,13 @@ fn process_row(parent: &mut Field, row: &JsValue, fields: &Array, field_index: u
         None => String::from("none"),
         Some(value) => {
             value_copy = value.as_string().unwrap();
-            value.as_string().unwrap().clone()
+            value.as_string().unwrap()
         }
     };
 
     set_group_count(parent, process_value, is_last_field, row_index);
 
-    if is_last_field == false {
+    if !is_last_field {
         let new_parent = parent.children.get_mut(value_copy.as_str()).unwrap();
         process_row(new_parent, row, fields, field_index + 1, row_index);
     }
@@ -93,7 +93,7 @@ fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_i
         None => {
             let mut children = Field::new(value.clone());
 
-            if is_last_field == true {
+            if is_last_field {
                 add_row_index(&mut children, *row_index);
             }
 
@@ -102,7 +102,7 @@ fn set_group_count(parent: &mut Field, value: String, is_last_field: bool, row_i
 
         }
         Some(children) => {
-            if is_last_field == true {
+            if is_last_field {
                 add_row_index(children, *row_index);
             }
         }

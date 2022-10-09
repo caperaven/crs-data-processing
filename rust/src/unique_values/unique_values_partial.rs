@@ -3,7 +3,7 @@ use js_sys::{Array};
 use wasm_bindgen::JsValue;
 use crate::utils::value_to_string;
 
-pub fn unique_values_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec<usize>) -> Result<JsValue, JsValue> {
+pub fn unique_values_partial(data: &Array, intent: &[JsValue], mut _rows: Vec<usize>) -> Result<JsValue, JsValue> {
     let mut property_map: HashMap<String, HashMap<String, i32>> = HashMap::new();
 
     for key in intent.iter() {
@@ -13,7 +13,7 @@ pub fn unique_values_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec
 
     for row in data.iter() {
         for key in intent.iter() {
-            let row_value = js_sys::Reflect::get(&row, &key).unwrap();
+            let row_value = js_sys::Reflect::get(&row, key).unwrap();
             let row_value_str = value_to_string(&row_value);
 
             let value_map = property_map.get_mut(&key.as_string().unwrap()).unwrap();

@@ -11,7 +11,7 @@ struct SortIntent {
 
 impl SortIntent {
     pub fn from(def: String) -> SortIntent {
-        let mut parts = def.split(":");
+        let mut parts = def.split(':');
         let field = parts.next().unwrap();
         let direction = parts.next().unwrap_or("asc");
 
@@ -34,8 +34,8 @@ fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
     let sort_intent_collection = intent_to_sort_intent(intent);
 
     for sort_intent in sort_intent_collection {
-        let value_a = get_value(&obj_a, &sort_intent.field).unwrap_or(JsValue::from(""));
-        let value_b = get_value(&obj_b, &sort_intent.field).unwrap_or(JsValue::from(""));
+        let value_a = get_value(&obj_a, &sort_intent.field).unwrap_or_else(|| JsValue::from(""));
+        let value_b = get_value(&obj_b, &sort_intent.field).unwrap_or_else(|| JsValue::from(""));
 
         if crate::evaluators::equals::evaluate(&value_a, &value_b).unwrap() {
             continue;

@@ -1,7 +1,7 @@
 use wasm_bindgen::JsValue;
 
 pub fn get_value(obj: &JsValue, path: &str) -> Option<JsValue> {
-    let parts = path.split(".");
+    let parts = path.split('.');
     let mut result = JsValue::from(obj);
 
     for part in parts {
