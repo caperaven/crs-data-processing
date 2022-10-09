@@ -63,9 +63,12 @@ export function group(data: Array<any>, intent: Array<any>, rows?: Uint32Array):
 */
 export function aggregate(data: Array<any>, intent: any[], rows?: Uint32Array): any;
 /**
-* @param {any} intent
+* @param {Array<any>} data
+* @param {any[]} intent
+* @param {Uint32Array | undefined} rows
+* @returns {any}
 */
-export function keys(intent: any): void;
+export function unique_values(data: Array<any>, intent: any[], rows?: Uint32Array): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -78,12 +81,12 @@ export interface InitOutput {
   readonly sort: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly group: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly aggregate: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
-  readonly keys: (a: number) => void;
+  readonly unique_values: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

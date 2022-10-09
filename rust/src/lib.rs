@@ -7,6 +7,7 @@ mod sort;
 mod utils;
 mod group;
 mod aggregate;
+mod unique_values;
 
 use js_sys::{Array};
 use wasm_bindgen::prelude::*;
@@ -117,13 +118,15 @@ pub fn aggregate(data: &Array, intent: Vec<JsValue>, rows: Option<Vec<usize>>) -
 }
 
 #[wasm_bindgen]
-pub fn keys(intent: &JsValue) {
-    let keys = js_sys::Reflect::own_keys(intent).unwrap();
-    let iter = keys.iter();
-
-    for key in iter {
-        console_log(&key);
+pub fn unique_values(data: &Array, intent: Vec<JsValue>, rows: Option<Vec<usize>>) -> Result<JsValue, JsValue> {
+    if data.length() == 0 {
+        return Ok(JsValue::NULL);
     }
 
-    console_log(intent);
+    let result: Result<JsValue, JsValue> = match rows {
+        None => unique_values::unique_values_all(data, &intent),
+        Some(rows) => unique_values::unique_values_partial(data, &intent, rows)
+    };
+
+    result
 }

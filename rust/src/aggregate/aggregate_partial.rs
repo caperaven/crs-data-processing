@@ -2,14 +2,13 @@ use hashbrown::HashMap;
 use js_sys::Array;
 use wasm_bindgen::JsValue;
 use crate::aggregate::aggregate_numbers::NumberAggregator;
-use crate::{console_log, get_property};
 
 pub fn aggregate_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec<usize>) -> Result<JsValue, JsValue> {
     let mut map: HashMap<String, NumberAggregator> = HashMap::new();
 
     for key in intent.iter() {
         let property = key.as_string().unwrap().clone();
-        map.insert(property.clone(), NumberAggregator::new(property.clone()));
+        map.insert(property.clone(), NumberAggregator::new());
     }
 
     for row in data.iter() {
@@ -23,7 +22,7 @@ pub fn aggregate_partial(data: &Array, intent: &Vec<JsValue>, mut _rows: Vec<usi
     let result: js_sys::Object = js_sys::Object::new();
     for key in intent.iter() {
         let aggregator = map.get_mut(&key.as_string().unwrap()).unwrap();
-        js_sys::Reflect::set(&result, key, &JsValue::from(aggregator.value().unwrap()));
+        js_sys::Reflect::set(&result, key, &JsValue::from(aggregator.value().unwrap()))?;
     }
 
     Ok(JsValue::from(result))

@@ -1,7 +1,6 @@
 use wasm_bindgen::{JsValue};
 
 pub struct NumberAggregator {
-    name: String,
     total: f64,
     min: f64,
     max: f64,
@@ -9,9 +8,8 @@ pub struct NumberAggregator {
 }
 
 impl NumberAggregator {
-    pub fn new(name: String) -> NumberAggregator {
+    pub fn new() -> NumberAggregator {
         NumberAggregator {
-            name,
             total: 0.0,
             min: f64::MAX,
             max: f64::MIN,
