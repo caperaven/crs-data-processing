@@ -49,12 +49,10 @@ fn evaluate(a: i32, b: i32, data: &Array, intent: &Array) -> Ordering {
             } else {
                 Ordering::Greater
             }
+        } else if sort_intent.direction == "asc" {
+            Ordering::Greater
         } else {
-            if sort_intent.direction == "asc" {
-                Ordering::Greater
-            } else {
-                Ordering::Less
-            }
+            Ordering::Less
         }
     }
 
