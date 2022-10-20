@@ -39,6 +39,9 @@ jobs:
       with:
         deno-version: v1.x
 
+    - name: Build dist package wasm files
+      run: deno run --allow-read --allow-write --allow-env --allow-run  --allow-net ./build/build.js
+
     # Uncomment this step to verify the use of 'deno fmt' on each commit.
     # - name: Verify formatting
     #   run: deno fmt --check
