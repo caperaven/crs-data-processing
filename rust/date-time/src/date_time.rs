@@ -4,11 +4,11 @@ use chrono::Duration;
 pub fn date_diff_duration(date1: &str, date2: &str) -> Result<Duration, String> {
     let d1 = match DateTime::parse_from_rfc3339(date1) {
         Ok(d) => d,
-        Err(e) => return Err(format!("Format error parsing date1 {} : {}", date1, e.to_string()))
+        Err(e) => return Err(format!("Format error parsing date1 {} : {}", date1, e))
     };
     let d2 = match DateTime::parse_from_rfc3339(date2) {
         Ok(d) => d,
-        Err(e) => return Err(format!("Format error parsing date2 {} : {}", date2, e.to_string()))
+        Err(e) => return Err(format!("Format error parsing date2 {} : {}", date2, e))
     };
 
     let res = if d1 < d2 {
@@ -32,11 +32,11 @@ pub fn date_diff_struct(date1: &str, date2: &str) -> Result<DateDiff, String> {
 
     let mut milliseconds = duration.num_milliseconds();
     let days = milliseconds / 86_400_000;
-    milliseconds = milliseconds - (days * 86_400_000);
+    milliseconds -= days * 86_400_000;
     let hours = milliseconds / 3_600_000;
-    milliseconds = milliseconds - (hours * 3_600_000);
+    milliseconds -= hours * 3_600_000;
     let minutes = milliseconds  / 60000;
-    milliseconds = milliseconds - (minutes * 60000);
+    milliseconds -= minutes * 60000;
     let seconds = milliseconds / 1000;
     // milliseconds = milliseconds - (seconds * 1000);
 

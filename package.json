@@ -7,8 +7,7 @@
     "crs-rust-wasm-starter": "wasm_lib.js"
   },
   "scripts": {
-    "build": "wasm-pack build rust/ --target web --out-dir ../bin",
-    "lint": "cd rust/data & cargo clippy",
+    "lint": "deno run --allow-read --allow-write --allow-env --allow-run  --allow-net ./build/lint.js",
     "test": "deno test --allow-all ./tests",
     "bundle": "deno run --allow-read --allow-write --allow-env --allow-run  --allow-net ./build/build.js"
   },
