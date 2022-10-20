@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "wasm-pack build rust/ --target web --out-dir ../bin",
-    "lint": "cd rust & cargo clippy",
+    "lint": "cd rust/data & cargo clippy",
     "test": "deno test --allow-all ./tests"
   },
   "repository": {
