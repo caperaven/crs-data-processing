@@ -1,5 +1,5 @@
 import {assertEquals} from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import init, {init_panic_hook, unique_values} from "./../bin/wasm_lib.js";
+import init, {init_panic_hook, unique_values} from "./../rust/data/bin/data_processing.js";
 
 await init();
 init_panic_hook();
