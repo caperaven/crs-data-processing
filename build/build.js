@@ -17,6 +17,8 @@ p = Deno.run({
 });
 console.log(await p.status());
 
+Deno.remove("./src/.gitignore");
+
 await Promise.all([
     Deno.copyFile("./src/data_processing.js", "./dist/data_processing.js"),
     Deno.copyFile("./src/data_processing_bg.wasm", "./dist/data_processing_bg.wasm"),
