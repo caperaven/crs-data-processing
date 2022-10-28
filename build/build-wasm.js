@@ -17,4 +17,6 @@ p = Deno.run({
 });
 console.log(await p.status());
 
+Deno.remove("./src/.gitignore");
+
 Deno.exit(0);
