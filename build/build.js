@@ -22,7 +22,7 @@ await Promise.all([
     Deno.copyFile("./src/data_processing_bg.wasm", "./dist/data_processing_bg.wasm"),
     Deno.copyFile("./src/data_processing_date_time.js", "./dist/data_processing_date_time.js"),
     Deno.copyFile("./src/data_processing_date_time_bg.wasm", "./dist/data_processing_date_time_bg.wasm"),
-    Deno.copyFile("./src/crs-data-processing.js", "./dist/crs-data-processing.js"),
+    Deno.copyFile("./src/crs-data-processing-actions.js", "./dist/crs-data-processing-actions.js"),
 ]);
 
 Deno.exit(0);
