@@ -1,5 +1,5 @@
 import {assertEquals, assertThrows} from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import init, {filter} from "./../rust/data/bin/data_processing.js";
+import init, {filter} from "./../src/data_processing.js";
 
 await init();
 

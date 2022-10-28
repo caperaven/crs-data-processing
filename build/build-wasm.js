@@ -19,12 +19,4 @@ console.log(await p.status());
 
 Deno.remove("./src/.gitignore");
 
-await Promise.all([
-    Deno.copyFile("./src/data_processing.js", "./dist/data_processing.js"),
-    Deno.copyFile("./src/data_processing_bg.wasm", "./dist/data_processing_bg.wasm"),
-    Deno.copyFile("./src/data_processing_date_time.js", "./dist/data_processing_date_time.js"),
-    Deno.copyFile("./src/data_processing_date_time_bg.wasm", "./dist/data_processing_date_time_bg.wasm"),
-    Deno.copyFile("./src/crs-data-processing-actions.js", "./dist/crs-data-processing-actions.js"),
-]);
-
 Deno.exit(0);

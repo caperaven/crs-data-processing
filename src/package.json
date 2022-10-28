@@ -1,0 +1,12 @@
+{
+  "name": "data_processing_date_time",
+  "version": "0.0.1",
+  "files": [
+    "data_processing_date_time_bg.wasm",
+    "data_processing_date_time.js",
+    "data_processing_date_time.d.ts"
+  ],
+  "module": "data_processing_date_time.js",
+  "types": "data_processing_date_time.d.ts",
+  "sideEffects": false
+}

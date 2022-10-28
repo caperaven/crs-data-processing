@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.148.0/testing/asserts.ts";
+import {assertEquals} from "https://deno.land/std@0.148.0/testing/asserts.ts";
 import {data, data2, people} from "./data/simple-data.js"
-import init, {init_panic_hook, sort} from "./../rust/data/bin/data_processing.js";
+import init, {init_panic_hook, sort} from "./../src/data_processing.js";
 
 await init();
 init_panic_hook();

@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.148.0/testing/asserts.ts";
+import {assertEquals} from "https://deno.land/std@0.148.0/testing/asserts.ts";
 import {people} from "./data/simple-data.js";
-import init, * as wasm from "./../rust/data/bin/data_processing.js";
+import init, * as wasm from "./../src/data_processing.js";
 
 await init();
 wasm.init_panic_hook();

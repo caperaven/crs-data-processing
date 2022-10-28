@@ -1,5 +1,5 @@
 import {assertEquals} from "https://deno.land/std@0.148.0/testing/asserts.ts";
-import init, {aggregate} from "./../rust/data/bin/data_processing.js";
+import init, {aggregate} from "./../src/data_processing.js";
 
 await init();
 
